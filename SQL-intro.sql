@@ -18,14 +18,17 @@
 
 SELECT * FROM Genre
 
+--Creating a new artist
 INSERT INTO Artist (ArtistName, YearEstablished) VALUES ('Cohort37', '2020');
 
 SELECT * FROM Artist
 
+--creating a new album
 INSERT INTO Album (Title, ReleaseDate, ArtistId, AlbumLength, Label, GenreId) VALUES ('Test Album', '3/18/2020', 28, 29893, 'DefJam', 1)
 
 SELECT * FROM Album
 
+--creating a new song
 INSERT INTO Song (Title, ReleaseDate, ArtistId, SongLength, GenreId, AlbumId) VALUES ('Test Song 2', '3/18/2020', 28, 61,  1, 23)
 
 SELECT * FROM Song
@@ -65,3 +68,14 @@ LEFT JOIN Genre g
 ON s.GenreId = g.Id
 GROUP BY GenreId, g.Label
 ORDER BY COUNT(GenreId);
+
+--finding the longest album and desplaying the title and album length
+SELECT Title, AlbumLength as 'Album Length'
+from Album 
+WHERE AlbumLength=(SELECT MAX(AlbumLength) from Album);
+
+--finding the longest SONG and displaying the title, album title, and song length
+SELECT s.Title, a.Title, SongLength as 'Song Length'
+from Song s
+LEFT JOIN Album a on s.AlbumId = a.Id
+WHERE SongLength=(SELECT MAX(SongLength) from Song);
